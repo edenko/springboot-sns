@@ -21,7 +21,7 @@ public class UserService {
     // 1. 영속화
     // 무조건 찾았다(get), 못찾았어 익섹셥(orElseThrow), (orElse)
 //    User userEntity = userRepository.findById(id).get();
-    User userEntity = userRepository.findById(10).orElseThrow(()->{
+    User userEntity = userRepository.findById(id).orElseThrow(()->{
         return new CustomValidationApiException("찾을 수 없는 아이디입니다.");
     });
     // 2. 영속화된 object 수정 -> (트랜잭션이 끝나는 시점에) 더티체킹(업데이트됨, repository.save 필요x)
