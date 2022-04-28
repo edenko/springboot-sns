@@ -27,7 +27,7 @@
 					<div class="item__title">이름</div>
 					<div class="item__input">
 						<input type="text" name="name" placeholder="이름"
-							value="${principal.user.username}" required="required"/>
+							value="${principal.user.name}" required="required"/>
 					</div>
 				</div>
 				<div class="content-item__03">

@@ -1,11 +1,16 @@
 package com.cos.photogramstart.domain.user;
 
+import com.cos.photogramstart.domain.image.Image;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.time.LocalDateTime;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -48,6 +53,10 @@ public class User {
   private String profileImageUrl;
 
   private String role;
+
+  @OneToMany(mappedBy = "user", fetch = FetchType.LAZY) // Image @ManyToOne 이름
+  @JsonIgnoreProperties({"user"}) // 호출할 때 image 내부의 "user"는 무시하고 해줘
+  private List<Image> images; // 양방향 매핑
 
   private LocalDateTime createDate;
 

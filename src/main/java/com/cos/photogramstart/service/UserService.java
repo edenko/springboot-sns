@@ -2,7 +2,9 @@ package com.cos.photogramstart.service;
 
 import com.cos.photogramstart.domain.user.User;
 import com.cos.photogramstart.domain.user.UserRepository;
+import com.cos.photogramstart.handler.ex.CustomException;
 import com.cos.photogramstart.handler.ex.CustomValidationApiException;
+import com.cos.photogramstart.web.dto.user.UserProfileDto;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.util.Supplier;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -35,4 +37,18 @@ public class UserService {
     userEntity.setGender(user.getGender());
     return userEntity;
   }
+
+  @Transactional(readOnly = true)
+  public UserProfileDto profile(int pageUserId, int principalId) {
+    UserProfileDto userProfileDto = new UserProfileDto();
+    // SELECT * FROM image WHRER userId = :userId;
+    User userEntity = userRepository.findById(pageUserId).orElseThrow(()->{
+      throw new CustomException("해당 프로필은 존재하지 않습니다.");
+    });
+    userProfileDto.setUser(userEntity);
+    userProfileDto.setImageCount(userEntity.getImages().size());
+    userProfileDto.setPageOwnerState(pageUserId == principalId);
+    return userProfileDto;
+  }
+
 }

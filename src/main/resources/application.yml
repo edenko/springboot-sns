@@ -38,4 +38,5 @@ spring:
       password: 1234   
 
 file:
-  path: C:/workspace/springbootwork/upload/
+#  path: C:/workspace/springbootwork/upload/
+  path: /Users/eden/Documents/upload/
