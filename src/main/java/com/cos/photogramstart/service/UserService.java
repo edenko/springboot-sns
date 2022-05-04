@@ -1,5 +1,6 @@
 package com.cos.photogramstart.service;
 
+import com.cos.photogramstart.domain.subscribe.SubscribeRepository;
 import com.cos.photogramstart.domain.user.User;
 import com.cos.photogramstart.domain.user.UserRepository;
 import com.cos.photogramstart.handler.ex.CustomException;
@@ -16,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserService {
 
   private final UserRepository userRepository;
+  private final SubscribeRepository subscribeRepository;
   private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
   @Transactional
@@ -48,6 +50,11 @@ public class UserService {
     userProfileDto.setUser(userEntity);
     userProfileDto.setImageCount(userEntity.getImages().size());
     userProfileDto.setPageOwnerState(pageUserId == principalId);
+
+    int subscribeState = subscribeRepository.mSubscribeState(principalId, pageUserId);
+    int subscribeCount = subscribeRepository.mSubscribeCount(pageUserId);
+    userProfileDto.setSubscribeState(subscribeState == 1);
+    userProfileDto.setSubscribeCount(subscribeCount);
     return userProfileDto;
   }
 

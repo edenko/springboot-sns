@@ -42,7 +42,15 @@
 						<button class="cta" onclick="location.href='/image/upload'">사진등록</button>
 					</c:when>
 					<c:otherwise>
-						<button class="cta" onclick="toggleSubscribe(this)">구독하기</button>
+						<c:choose>
+							<c:when test="${userProfileDto.subscribeState}">
+<%--								this : event 정보--%>
+								<button class="cta blue" onclick="toggleSubscribe(${userProfileDto.user.id}, this)">구독취소</button>
+							</c:when>
+							<c:otherwise>
+								<button class="cta" onclick="toggleSubscribe(${userProfileDto.user.id}, this)">구독하기</button>
+							</c:otherwise>
+						</c:choose>
 					</c:otherwise>
 				</c:choose>
 
@@ -55,7 +63,7 @@
 				<ul>
 					<li><a href=""> 게시물<span>${userProfileDto.imageCount}</span>
 					</a></li>
-					<li><a href="javascript:subscribeInfoModalOpen();"> 구독정보<span>2</span>
+					<li><a href="javascript:subscribeInfoModalOpen(${userProfileDto.user.id});"> 구독정보<span>${userProfileDto.subscribeCount}</span>
 					</a></li>
 				</ul>
 			</div>
@@ -117,9 +125,9 @@
 		<button onclick="closePopup('.modal-image')">취소</button>
 	</div>
 </div>
+<!--프로필사진 바꾸기 모달 end-->
 
-<!--프로필사진 바꾸기 모달end-->
-
+<!--구독정보 모달-->
 <div class="modal-subscribe">
 	<div class="subscribe">
 		<div class="subscribe-header">
@@ -131,34 +139,10 @@
 
 		<div class="subscribe-list" id="subscribeModalList">
 
-			<div class="subscribe__item" id="subscribeModalItem-1">
-				<div class="subscribe__img">
-					<img src="#" onerror="this.src='/images/person.jpeg'"/>
-				</div>
-				<div class="subscribe__text">
-					<h2>love</h2>
-				</div>
-				<div class="subscribe__btn">
-					<button class="cta blue" onclick="toggleSubscribeModal(this)">구독취소</button>
-				</div>
-			</div>
-
-
-			<div class="subscribe__item" id="subscribeModalItem-2">
-				<div class="subscribe__img">
-					<img src="#" onerror="this.src='/images/person.jpeg'"/>
-				</div>
-				<div class="subscribe__text">
-					<h2>ssar</h2>
-				</div>
-				<div class="subscribe__btn">
-					<button class="cta blue" onclick="toggleSubscribeModal(this)">구독취소</button>
-				</div>
-			</div>
 		</div>
 	</div>
-
 </div>
+<!--구독정보 모달 end-->
 
 
 <script src="/js/profile.js"></script>
