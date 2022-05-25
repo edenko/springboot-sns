@@ -1,7 +1,10 @@
 package com.cos.photogramstart.domain.image;
 
+import com.cos.photogramstart.domain.likes.Likes;
 import com.cos.photogramstart.domain.user.User;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.time.LocalDateTime;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -9,8 +12,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -32,9 +37,20 @@ public class Image {
 
   private String postImageUrl; // 사진을 서버에 저장 후, 디비에는 저장 경로를 넣음
 
+  @JsonIgnoreProperties({"images"})
   @JoinColumn(name = "userId") // FK naming
   @ManyToOne(fetch = FetchType.EAGER)
   private User user;
+
+  @JsonIgnoreProperties({"image"})
+  @OneToMany(mappedBy = "image") // Likes 안에 private Image 'image' 변수이름
+  private List<Likes> likes;
+
+  @Transient // 컬럼이 만들어지지 않음
+  private boolean likeState;
+
+  @Transient
+  private int likeCount;
 
   private LocalDateTime createDate;
 

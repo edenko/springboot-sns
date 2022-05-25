@@ -1,5 +1,6 @@
 package com.cos.photogramstart.service;
 
+import com.cos.photogramstart.domain.image.ImageRepository;
 import com.cos.photogramstart.domain.subscribe.SubscribeRepository;
 import com.cos.photogramstart.domain.user.User;
 import com.cos.photogramstart.domain.user.UserRepository;
@@ -47,6 +48,7 @@ public class UserService {
     User userEntity = userRepository.findById(pageUserId).orElseThrow(()->{
       throw new CustomException("해당 프로필은 존재하지 않습니다.");
     });
+
     userProfileDto.setUser(userEntity);
     userProfileDto.setImageCount(userEntity.getImages().size());
     userProfileDto.setPageOwnerState(pageUserId == principalId);
@@ -55,6 +57,12 @@ public class UserService {
     int subscribeCount = subscribeRepository.mSubscribeCount(pageUserId);
     userProfileDto.setSubscribeState(subscribeState == 1);
     userProfileDto.setSubscribeCount(subscribeCount);
+
+    // 좋아요 카운트 추가
+    userEntity.getImages().forEach(image -> {
+      image.setLikeCount(image.getLikes().size());
+    });
+
     return userProfileDto;
   }
 
