@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 @RequiredArgsConstructor
 @RestController
@@ -60,6 +61,19 @@ public class UserApiController {
     );
     return new ResponseEntity<>(
         new CMRespDto<>(1, "구독자 정보 리스트 가져오기 성공", subscribeRespDto),
+        HttpStatus.OK);
+  }
+
+  @PutMapping("/api/v1/user/{principalId}/profileImageUrl")
+  public ResponseEntity<?> profileImageUrlUpdate(
+      @PathVariable int principalId,
+      MultipartFile profileImageFile, // profile.jsp -> Input name="profileImageFile"
+      @AuthenticationPrincipal PrincipalDetails principalDetails
+  ) {
+    User userEntity = userService.userProfileImageUpdate(principalId, profileImageFile);
+    principalDetails.setUser(userEntity);
+    return new ResponseEntity<>(
+        new CMRespDto<>(1, "프로필 사진 변경 성공", null),
         HttpStatus.OK);
   }
 
