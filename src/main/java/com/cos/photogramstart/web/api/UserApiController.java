@@ -38,17 +38,9 @@ public class UserApiController {
       @Valid UserUpdateDto userUpdateDto, BindingResult bindingResult,
       @AuthenticationPrincipal PrincipalDetails principalDetails
   ) {
-    if(bindingResult.hasErrors()) {
-      Map<String, String> errorMap = new HashMap<>();
-      for(FieldError error:bindingResult.getFieldErrors()) {
-        errorMap.put(error.getField(), error.getDefaultMessage());
-      }
-      throw new CustomValidationApiException("유효성 검사 실패함", errorMap);
-    }else {
-      User userEntity = userService.updateUser(id, userUpdateDto.toEntity());
-      principalDetails.setUser(userEntity); // session 재반영
-      return new CMRespDto<>(1, "회원 수정 완료", userEntity);
-    }
+    User userEntity = userService.updateUser(id, userUpdateDto.toEntity());
+    principalDetails.setUser(userEntity); // session 재반영
+    return new CMRespDto<>(1, "회원 수정 완료", userEntity);
   }
 
   @GetMapping("/api/v1/user/{pageUserId}/subscribe")

@@ -19,6 +19,13 @@
 	</properties>
 	<dependencies>
 
+		<!-- AOP -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-aop</artifactId>
+			<version>2.7.0</version>
+		</dependency>
+
 		<!-- qlrm -->
 		<dependency>
 			<groupId>org.qlrm</groupId>
