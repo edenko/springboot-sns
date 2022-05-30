@@ -20,7 +20,6 @@ public class ValidationAdvice {
   @Around("execution(* com.cos.photogramstart.web.api.*Controller.*(..))") // 함수 시작 ~ 끝까지 관여할 때
   // excution(접근지정자 패키지.controller로 끝나는 모든 애들.모든 메서드.(메서드의 파라미터))
   public Object apiAdvice(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
-    System.out.println("web api ======================================");
     // proceedingJoinPoint : 함수 내부(매개변수)에 접근 할 수 있음, 낚아채서 여기 내부가 먼저 실행
     Object[] args = proceedingJoinPoint.getArgs();
     for(Object arg : args) {
@@ -40,7 +39,6 @@ public class ValidationAdvice {
 
   @Around("execution(* com.cos.photogramstart.web.*Controller.*(..))")
   public Object Advice(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
-    System.out.println("web ========================================");
     Object[] args = proceedingJoinPoint.getArgs();
     for(Object arg : args) {
       if(arg instanceof BindingResult) {
